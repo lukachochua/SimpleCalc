@@ -1,0 +1,15 @@
+/home/lukacho/CsharpProjects/Calculator/bin/Debug/net8.0/Calculator
+/home/lukacho/CsharpProjects/Calculator/bin/Debug/net8.0/Calculator.deps.json
+/home/lukacho/CsharpProjects/Calculator/bin/Debug/net8.0/Calculator.runtimeconfig.json
+/home/lukacho/CsharpProjects/Calculator/bin/Debug/net8.0/Calculator.dll
+/home/lukacho/CsharpProjects/Calculator/bin/Debug/net8.0/Calculator.pdb
+/home/lukacho/CsharpProjects/Calculator/obj/Debug/net8.0/Calculator.GeneratedMSBuildEditorConfig.editorconfig
+/home/lukacho/CsharpProjects/Calculator/obj/Debug/net8.0/Calculator.AssemblyInfoInputs.cache
+/home/lukacho/CsharpProjects/Calculator/obj/Debug/net8.0/Calculator.AssemblyInfo.cs
+/home/lukacho/CsharpProjects/Calculator/obj/Debug/net8.0/Calculator.csproj.CoreCompileInputs.cache
+/home/lukacho/CsharpProjects/Calculator/obj/Debug/net8.0/Calculator.sourcelink.json
+/home/lukacho/CsharpProjects/Calculator/obj/Debug/net8.0/Calculator.dll
+/home/lukacho/CsharpProjects/Calculator/obj/Debug/net8.0/refint/Calculator.dll
+/home/lukacho/CsharpProjects/Calculator/obj/Debug/net8.0/Calculator.pdb
+/home/lukacho/CsharpProjects/Calculator/obj/Debug/net8.0/Calculator.genruntimeconfig.cache
+/home/lukacho/CsharpProjects/Calculator/obj/Debug/net8.0/ref/Calculator.dll
