@@ -8,87 +8,99 @@ class Program
 {
     static void Main(string[] args)
     {
-        int num1 = 0;
-        int num2 = 0;
-        int result = 0;
+        bool performCalculation = true;
 
-        string answer;
-        Console.WriteLine("Hello, Welcome to the simple Calculator!");
+        while (performCalculation)
+        {
+            PerformCalculation();
 
-        // Input for num1
+            Console.WriteLine("Do you want to perform another calculation?");
+
+            string answer = Console.ReadLine().ToLower();
+            performCalculation = (answer == "y" || answer == "yes");
+        }
+
+        Console.WriteLine("Thank you for using the calculator!");
+
+    }
+
+    static void PerformCalculation()
+    {
+        double num1 = 0;
+        double num2 = 0;
+        double result = 0;
+
+        Console.WriteLine("Welcome to the Calculator!");
+
+        num1 = GetNumberInput("Enter the First Number");
+        num2 = GetNumberInput("Enter the Second Number");
+
+        string operation = GetOperation();
+
+        switch (operation)
+        {
+            case "+":
+                result = num1 + num2;
+                break;
+            case "-":
+                result = num1 - num2;
+                break;
+            case "*":
+                result = num1 * num2;
+                break;
+            case "/":
+                try
+                {
+                    result = num1 / num2;
+                }
+                catch (DivideByZeroException)
+                {
+                    Console.WriteLine("Error: Division by zero is not allowed.");
+                }
+                break;
+            default:
+                Console.WriteLine("Incorrect math operator. Try again.");
+                break;
+        }
+        Console.WriteLine($"The result is {result:F2}");
+    }
+
+    static double GetNumberInput(string prompt)
+    {
+        double number;
         bool validInput = false;
-        while (!validInput)
+
+        do
         {
-            Console.WriteLine("Enter the First Number");
-            try
+            Console.WriteLine(prompt);
+            validInput = double.TryParse(Console.ReadLine(), out number);
+
+            if (!validInput)
             {
-                num1 = Convert.ToInt32(Console.ReadLine());
-                validInput = true;
+                Console.WriteLine("Invalid Input. Enter a number");
             }
-            catch (FormatException)
-            {
-                Console.WriteLine("Invalid input. Please enter an integer.");
-            }
-        }
+        } while (!validInput);
 
-        // Input for num2
-        validInput = false;
-        while (!validInput)
-        {
-            Console.WriteLine("Enter the Second Number");
-            try
-            {
-                num2 = Convert.ToInt32(Console.ReadLine());
-                validInput = true;
-            }
-            catch (FormatException)
-            {
-                Console.WriteLine("Invalid input. Please enter an integer.");
-            }
-        }
+        return number;
+    }
 
-        Console.WriteLine("Which Math Operation Would You Like To Do - \"+, -, *, /\" ?");
+    static string GetOperation()
+    {
+        string[] validOperations = { "+", "-", "*", "/" };
 
-        answer = Console.ReadLine();
+        string operation;
 
-        bool inputValidation = false;
-
-        while (!inputValidation)
+        do
         {
             Console.WriteLine("Which Math Operation Would You Like To Do - \"+, -, *, /\" ?");
-            answer = Console.ReadLine();
-
-            switch (answer)
+            operation = Console.ReadLine();
+            if (!validOperations.Contains(operation))
             {
-                case "+":
-                    result = num1 + num2;
-                    inputValidation = true;
-                    break;
-                case "-":
-                    result = num1 - num2;
-                    inputValidation = true;
-                    break;
-                case "*":
-                    result = num1 * num2;
-                    inputValidation = true;
-                    break;
-                case "/":
-                    try
-                    {
-                        result = num1 / num2;
-                        inputValidation = true;
-                    }
-                    catch (DivideByZeroException)
-                    {
-                        Console.WriteLine("Error: Division by zero is not allowed.");
-                    }
-                    break;
-                default:
-                    Console.WriteLine("Incorrect math operator. Try again.");
-                    break;
+                Console.WriteLine("Incorrect math operator. Try again.");
             }
-        }
+        } while (!validOperations.Contains(operation));
 
-        Console.WriteLine($"The result is {result}");
+        return operation;
     }
 }
+
