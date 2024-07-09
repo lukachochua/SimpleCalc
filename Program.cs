@@ -18,7 +18,8 @@ class Program
         {
             Console.WriteLine("\n1. Perform Calculation");
             Console.WriteLine("2. View History");
-            Console.WriteLine("3. Exit");
+            Console.WriteLine("3. Clear History");
+            Console.WriteLine("4. Exit");
             Console.Write("Choose an option (1-3): ");
 
             string choice = Console.ReadLine();
@@ -32,6 +33,9 @@ class Program
                     ViewHistory();
                     break;
                 case "3":
+                    ClearCalculations();
+                    break;
+                case "4":
                     continueCalculating = false;
                     break;
                 default:
@@ -177,6 +181,24 @@ class Program
         catch (IOException e)
         {
             Console.WriteLine($"Couldn't load calculations: {e.Message}");
+        }
+    }
+
+    static void ClearCalculations()
+    {
+        try
+        {
+            calculationHistory.Clear();
+
+            if (File.Exists(historyFile))
+            {
+                File.WriteAllText(historyFile, string.Empty);
+                Console.WriteLine("Calcualtions history has been cleared.");
+            }
+        }
+        catch (IOException e)
+        {
+            Console.WriteLine($"An error occured while trying to clear the history: {e.Message}");
         }
     }
 }
