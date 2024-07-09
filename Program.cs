@@ -6,63 +6,91 @@ using System.Threading.Tasks;
 
 class Program
 {
+    static List<string> calculationHistory = new List<string>();
+
     static void Main(string[] args)
     {
-        bool performCalculation = true;
+        bool continueCalculating = true;
 
-        while (performCalculation)
+        while (continueCalculating)
         {
-            PerformCalculation();
+            Console.WriteLine("\n1. Perform Calculation");
+            Console.WriteLine("2. View History");
+            Console.WriteLine("3. Exit");
+            Console.Write("Choose an option (1-3): ");
 
-            Console.WriteLine("Do you want to perform another calculation?");
+            string choice = Console.ReadLine();
 
-            string answer = Console.ReadLine().ToLower();
-            performCalculation = (answer == "y" || answer == "yes");
+            switch (choice)
+            {
+                case "1":
+                    PerformCalculation();
+                    break;
+                case "2":
+                    ViewHistory();
+                    break;
+                case "3":
+                    continueCalculating = false;
+                    break;
+                default:
+                    Console.WriteLine("Invalid choice. Please try again.");
+                    break;
+            }
         }
 
-        Console.WriteLine("Thank you for using the calculator!");
-
+        Console.WriteLine("Thank you for using the calculator. Goodbye!");
     }
-
     static void PerformCalculation()
     {
-        double num1 = 0;
-        double num2 = 0;
-        double result = 0;
-
-        Console.WriteLine("Welcome to the Calculator!");
-
-        num1 = GetNumberInput("Enter the First Number");
-        num2 = GetNumberInput("Enter the Second Number");
-
+        double num1 = GetNumberInput("Enter the First Number");
+        double num2 = GetNumberInput("Enter the Second Number");
         string operation = GetOperation();
 
-        switch (operation)
+        double result = 0;
+        bool calculationSuccessful = true;
+
+        try
         {
-            case "+":
-                result = num1 + num2;
-                break;
-            case "-":
-                result = num1 - num2;
-                break;
-            case "*":
-                result = num1 * num2;
-                break;
-            case "/":
-                try
+            checked
+            {
+                switch (operation)
                 {
-                    result = num1 / num2;
+                    case "+":
+                        result = num1 + num2;
+                        break;
+                    case "-":
+                        result = num1 - num2;
+                        break;
+                    case "*":
+                        result = num1 * num2;
+                        break;
+                    case "/":
+                        if (num2 == 0)
+                        {
+                            throw new DivideByZeroException();
+                        }
+                        result = num1 / num2;
+                        break;
                 }
-                catch (DivideByZeroException)
-                {
-                    Console.WriteLine("Error: Division by zero is not allowed.");
-                }
-                break;
-            default:
-                Console.WriteLine("Incorrect math operator. Try again.");
-                break;
+            }
         }
-        Console.WriteLine($"The result is {result:F2}");
+        catch (OverflowException)
+        {
+            Console.WriteLine("Error: The result is too large or too small to be represented.");
+            calculationSuccessful = false;
+        }
+        catch (DivideByZeroException)
+        {
+            Console.WriteLine("Error: Division by zero is not allowed.");
+            calculationSuccessful = false;
+        }
+
+        if (calculationSuccessful)
+        {
+            string calculationString = $"{num1} {operation} {num2} = {result:F2}";
+            Console.WriteLine($"The result is {result:F2}");
+            calculationHistory.Add(calculationString);
+        }
     }
 
     static double GetNumberInput(string prompt)
@@ -86,13 +114,13 @@ class Program
 
     static string GetOperation()
     {
-        string[] validOperations = { "+", "-", "*", "/" };
+        string[] validOperations = { "+", "-", "*", "/", "%" };
 
         string operation;
 
         do
         {
-            Console.WriteLine("Which Math Operation Would You Like To Do - \"+, -, *, /\" ?");
+            Console.WriteLine("Which Math Operation Would You Like To Do - \"+, -, *, /, %\" ?");
             operation = Console.ReadLine();
             if (!validOperations.Contains(operation))
             {
@@ -101,6 +129,22 @@ class Program
         } while (!validOperations.Contains(operation));
 
         return operation;
+    }
+
+    static void ViewHistory()
+    {
+        if (calculationHistory.Count == 0)
+        {
+            Console.WriteLine("No calculations have been performed yet.");
+        }
+        else
+        {
+            Console.WriteLine("Calculation History:");
+            for (int i = 0; i < calculationHistory.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}. {calculationHistory[i]}");
+            }
+        }
     }
 }
 
