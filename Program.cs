@@ -7,9 +7,11 @@ using System.Threading.Tasks;
 class Program
 {
     static List<string> calculationHistory = new List<string>();
+    const string historyFile = "calculation_history.txt";
 
     static void Main(string[] args)
     {
+        LoadCalculations();
         bool continueCalculating = true;
 
         while (continueCalculating)
@@ -90,6 +92,7 @@ class Program
             string calculationString = $"{num1} {operation} {num2} = {result:F2}";
             Console.WriteLine($"The result is {result:F2}");
             calculationHistory.Add(calculationString);
+            SaveCalculations();
         }
     }
 
@@ -140,10 +143,40 @@ class Program
         else
         {
             Console.WriteLine("Calculation History:");
-            for (int i = 0; i < calculationHistory.Count; i++)
+            int counter = 0;
+            foreach (string calculation in calculationHistory)
             {
-                Console.WriteLine($"{i + 1}. {calculationHistory[i]}");
+                counter++;
+                Console.WriteLine($"{counter}. {calculation}");
             }
+        }
+    }
+
+    static void SaveCalculations()
+    {
+        try
+        {
+            File.WriteAllLines(historyFile, calculationHistory);
+        }
+        catch (IOException e)
+        {
+            Console.WriteLine($"An error has occured while saving: {e.Message}");
+        }
+    }
+
+    static void LoadCalculations()
+    {
+        try
+        {
+            if (File.Exists(historyFile))
+            {
+                calculationHistory = new List<string>(File.ReadAllLines(historyFile));
+                Console.WriteLine("Calculations loaded successfully.");
+            }
+        }
+        catch (IOException e)
+        {
+            Console.WriteLine($"Couldn't load calculations: {e.Message}");
         }
     }
 }
