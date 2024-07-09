@@ -190,10 +190,21 @@ class Program
         {
             calculationHistory.Clear();
 
-            if (File.Exists(historyFile))
+            Console.WriteLine("Are you sure you want to clear history? (y/n)");
+
+            string check = Console.ReadLine().ToLower();
+
+            if (check == "y" || check == "yes")
             {
-                File.WriteAllText(historyFile, string.Empty);
-                Console.WriteLine("Calcualtions history has been cleared.");
+                if (File.Exists(historyFile))
+                {
+                    File.WriteAllText(historyFile, string.Empty);
+                    Console.WriteLine("Calcualtions history has been cleared.");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Operation canceled. Returning to main menu.");
             }
         }
         catch (IOException e)
